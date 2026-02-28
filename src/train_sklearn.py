@@ -68,6 +68,10 @@ y = dataset["eligible"]
 X = dataset.drop("eligible", axis=1)
 
 X = pd.get_dummies(X, drop_first=True)
+
+# Fix column names for XGBoost
+X.columns = X.columns.astype(str).str.replace('[^A-Za-z0-9_]+', '_', regex=True)
+
 X = X.replace([np.inf, -np.inf], np.nan)
 X = X.fillna(X.median())
 
